@@ -79,6 +79,31 @@ naim klasörüne projemizi kurarak başlayalım hazırsan
 
 ---
 
+### 🏋️ Iteration 3
+
+| Field | Value |
+|-------|-------|
+| Feature | `Dinamik Navigasyon Sistemi (Multi-screen JSON)` |
+| Weight | `15 kg` |
+| Tool Used | `Antigravity` |
+| Time | `15 min` |
+| Attempts | `1` |
+| Status | ✅ Success |
+
+**Prompt given to AI:**
+```
+tamamdır sayfalar arası geçişe geçebiliriz şimdi doğru ilerliyoruz gibi görünüyor
+```
+
+**What happened:**
+- `ui.json` dosyası büyütülerek içine `screens` objesi eklendi. "home", "profile", "chat" adında 3 farklı ekran yaratıldı. `App.js` sadece bu ekranlar arası state değişimi için güncellendi, her ekranın içeriği ve düğmeler JSON'da tanımlı olan `"action": { "type": "NAVIGATE", "target": "profile" }` komutlarıyla SDUI Engine üzerinden aktarıldı.
+
+**Screenshot:** 📸 Lütfen terminalde Web uygulamanı yenileyip, butonlardan birine basarak sayfalar arası geçişi test et. Gittiğin yeni ekranın fotoğrafını `assets/iter3.png` adıyla kaydet.
+
+**Commit:** `[NAIM: CareerMate] Iterasyon 3: JSON ile Dinamik Navigasyon - 15kg`
+
+---
+
 ## 🧠 Reflection (fill at the end)
 
 **Hardest part:**

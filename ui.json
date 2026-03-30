@@ -1,48 +1,84 @@
 {
-  "screen": {
-    "title": "Kariyer Mentoruna Hoşgeldin",
-    "backgroundColor": "#f4f4f8",
-    "elements": [
-      {
-        "id": "header_text",
-        "type": "text",
-        "content": "CareerMate AI 🚀",
-        "style": {
-          "fontSize": 28,
-          "fontWeight": "bold",
-          "color": "#333",
-          "marginBottom": 10,
-          "textAlign": "center"
-        }
-      },
-      {
-        "id": "desc_text",
-        "type": "text",
-        "content": "Sana özel kariyer planını oluşturmak için JSON'dan okunan dinamik arayüz motoru başarıyla çalışıyor! (Boss Level 25kg)",
-        "style": {
-          "fontSize": 16,
-          "color": "#666",
-          "marginBottom": 30,
-          "textAlign": "center"
-        }
-      },
-      {
-        "id": "start_button",
-        "type": "button",
-        "content": "Teste Başla",
-        "action": "START_TEST",
-        "style": {
-          "backgroundColor": "#007BFF",
-          "padding": 15,
-          "borderRadius": 8,
-          "alignItems": "center"
+  "screens": {
+    "home": {
+      "title": "Ana Ekran",
+      "backgroundColor": "#f4f4f8",
+      "elements": [
+        {
+          "id": "header",
+          "type": "text",
+          "content": "CareerMate AI 🚀",
+          "style": { "fontSize": 28, "fontWeight": "bold", "color": "#333", "marginBottom": 20, "textAlign": "center" }
         },
-        "textStyle": {
-          "color": "#fff",
-          "fontWeight": "bold",
-          "fontSize": 18
+        {
+          "id": "goToProfile",
+          "type": "button",
+          "content": "Kariyer Profilini Çıkar",
+          "action": { "type": "NAVIGATE", "target": "profile" },
+          "style": { "backgroundColor": "#007BFF", "padding": 15, "borderRadius": 8, "marginBottom": 15, "alignItems": "center" },
+          "textStyle": { "color": "#fff", "fontWeight": "bold", "fontSize": 16 }
+        },
+        {
+          "id": "goToChat",
+          "type": "button",
+          "content": "AI Mentör ile Görüş",
+          "action": { "type": "NAVIGATE", "target": "chat" },
+          "style": { "backgroundColor": "#28A745", "padding": 15, "borderRadius": 8, "alignItems": "center" },
+          "textStyle": { "color": "#fff", "fontWeight": "bold", "fontSize": 16 }
         }
-      }
-    ]
+      ]
+    },
+    "profile": {
+      "title": "Profil Ekranı",
+      "backgroundColor": "#fff",
+      "elements": [
+        {
+          "id": "p_title",
+          "type": "text",
+          "content": "Test Ekranı",
+          "style": { "fontSize": 24, "fontWeight": "bold", "marginBottom": 20 }
+        },
+        {
+          "id": "p_desc",
+          "type": "text",
+          "content": "JSON verisine göre buraya geldin. Bir sonraki aşamada (İterasyon 4) buraya Text Input'lar ile test formumuzu ekleyeceğiz.",
+          "style": { "fontSize": 16, "marginBottom": 30, "color": "#555", "lineHeight": 24 }
+        },
+        {
+          "id": "backToHome",
+          "type": "button",
+          "content": "⬅ Geri Dön",
+          "action": { "type": "NAVIGATE", "target": "home" },
+          "style": { "backgroundColor": "#6c757d", "padding": 12, "borderRadius": 8, "alignItems": "center" },
+          "textStyle": { "color": "#fff", "fontSize": 16 }
+        }
+      ]
+    },
+    "chat": {
+      "title": "Mentör Ekranı",
+      "backgroundColor": "#E9ECEF",
+      "elements": [
+        {
+          "id": "c_title",
+          "type": "text",
+          "content": "🤖 Mentör Sohbeti",
+          "style": { "fontSize": 24, "fontWeight": "bold", "marginBottom": 20 }
+        },
+        {
+          "id": "c_desc",
+          "type": "text",
+          "content": "Sihirli bir şekilde chat ekranına geçtik! Bütün bu sayfaları App.js hiç bilmiyor, tamamen ui.json yönlendiriyor.",
+          "style": { "fontSize": 16, "marginBottom": 30, "color": "#555" }
+        },
+        {
+          "id": "backToHome",
+          "type": "button",
+          "content": "⬅ Ana Ekrana Dön",
+          "action": { "type": "NAVIGATE", "target": "home" },
+          "style": { "backgroundColor": "#6c757d", "padding": 12, "borderRadius": 8, "alignItems": "center" },
+          "textStyle": { "color": "#fff", "fontSize": 16 }
+        }
+      ]
+    }
   }
 }
