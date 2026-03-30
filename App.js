@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import SDUIEngine from './components/SDUIEngine';
 import uiData from './ui.json';
 
@@ -30,15 +31,50 @@ class ErrorBoundary extends React.Component {
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState('home');
+  const [profileData, setProfileData] = useState({});
 
-  const handleAction = (action) => {
+  // Uygulama açıldığında cihaz hafızasından kayıtlı kariyer hedefini çeker.
+  useEffect(() => {
+    const loadMemory = async () => {
+      try {
+        const savedData = await AsyncStorage.getItem('@careermate_profile');
+        if (savedData !== null) {
+          setProfileData(JSON.parse(savedData));
+        }
+      } catch (err) {
+        console.error("Hafıza okuma hatası:", err);
+      }
+    };
+    loadMemory();
+  }, []);
+
+  // UI Engine'den gelen aksiyonları dinliyoruz. formPayload içinde kullanıcının yazdıkları var.
+  const handleAction = async (action, formPayload) => {
     if (action.type === 'NAVIGATE') {
       if (uiData.screens[action.target]) {
         setCurrentScreen(action.target);
       } else {
         alert("Hedef sayfa JSON içinde bulunamadı: " + action.target);
       }
-    } else {
+    } 
+    // 5. İterasyon: Veriyi cihaz hafızasına kaydet ve sayfayı değiştir
+    else if (action.type === 'SAVE_PROFILE') {
+      try {
+        const newData = { ...profileData, ...formPayload };
+        await AsyncStorage.setItem('@careermate_profile', JSON.stringify(newData));
+        setProfileData(newData);
+        
+        alert("Harika! Kariyer hedefini hafızama kazıdım 🧠");
+        
+        // Kayıt başarılıysa hedefe git
+        if (action.target && uiData.screens[action.target]) {
+          setCurrentScreen(action.target);
+        }
+      } catch (err) {
+        alert("Kaydetme Hatası: " + err.message);
+      }
+    } 
+    else {
       alert("Bilinmeyen Aksiyon Türü!");
     }
   };
@@ -49,7 +85,11 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <ErrorBoundary>
         {currentLayout ? (
-          <SDUIEngine layout={currentLayout} onAction={handleAction} />
+          <SDUIEngine 
+            layout={currentLayout} 
+            onAction={handleAction} 
+            initialState={profileData} 
+          />
         ) : (
           <Text>Sayfa Yükleniyor veya Bulunamadı...</Text>
         )}

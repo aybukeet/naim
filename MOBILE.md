@@ -130,6 +130,34 @@ tamamdır sayfalar arası geçişe geçebiliriz şimdi doğru ilerliyoruz gibi g
 
 ---
 
+### 🏋️ Iteration 5
+
+| Field | Value |
+|-------|-------|
+| Feature | `Local Storage Entegrasyonu ve Hafıza Logiği (SDUI)` |
+| Weight | `20 kg` |
+| Tool Used | `Antigravity` |
+| Time | `15 min` |
+| Attempts | `1` |
+| Status | ✅ Success |
+
+**Prompt given to AI:**
+```
+sırada 5. iterasyon var local storage kodlayacağız hazırsan hata yakalamak için burdayım
+```
+
+**What happened:**
+- `@react-native-async-storage/async-storage` kütüphanesi yüklendi.
+- `ui.json` kodundaki hedef form alanına (Input) `career_goal` adında bir `id` verildi. JSON'daki Gönder (Mentörle Tanış) butonunun görevi `"NAVIGATE"` yerine `"SAVE_PROFILE"` olarak ayarlandı.
+- `SDUIEngine.js` formu içindeki veriyi anlık `useState` ile toplayıp tuşa basıldığında Parent yapı olan `App.js` dosyasına ulaştırma özelliğine kavuştu.
+- `App.js` form payload verisini yakaladı, `AsyncStorage`'a kaydetti ve sayfayı değiştirdi. Uygulama baştan açıldığında formun içindeki yazılar otomatik olarak veritabanından çekilip JSON motoruna verildi.
+
+**Screenshot:** 📸 Formu doldurup Mentor sayfasından tekrar form sayfasına geldiğinde yazıların kaybolmadığını veya kaydetildiğinde çalışan uyarı ekranını ekran görüntüsü al (`assets/iter5.png`).
+
+**Commit:** `[NAIM: CareerMate] Iterasyon 5: AsyncStorage ile Kalıcı Hafıza - 20kg`
+
+---
+
 ## 🧠 Reflection (fill at the end)
 
 **Hardest part:**

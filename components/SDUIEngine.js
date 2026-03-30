@@ -1,11 +1,17 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, TextInput, ScrollView, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 
-export default function SDUIEngine({ layout, onAction }) {
+export default function SDUIEngine({ layout, onAction, initialState = {} }) {
+  // Kullanıcının anket ve text formlarındaki değerlerini tuttuğumuz yer.
+  const [formData, setFormData] = useState(initialState);
+
+  // Dışarıdan yeni initialState (storage yüklenince) gelince senkronize ediyoruz
+  useEffect(() => {
+    setFormData(initialState);
+  }, [initialState]);
+
   if (!layout || !layout.elements) return null;
 
-  // Özyinelemeli (Recursive) JSON Parser: 
-  // Container içindeki child elementleri de render eder.
   const renderElement = (element, index) => {
     switch(element.type) {
       case 'text':
@@ -23,6 +29,12 @@ export default function SDUIEngine({ layout, onAction }) {
             placeholder={element.placeholder}
             placeholderTextColor={element.placeholderTextColor || "#888"}
             multiline={element.multiline}
+            value={formData[element.id] || ''}
+            onChangeText={(text) => {
+              if (element.id) {
+                setFormData(prev => ({ ...prev, [element.id]: text }));
+              }
+            }}
           />
         );
 
@@ -40,8 +52,9 @@ export default function SDUIEngine({ layout, onAction }) {
             style={element.style}
             activeOpacity={0.8}
             onPress={() => {
+              // Butona basıldığında, o ana kadar toplanan form verilerini de App.js'e yolla
               if (element.action) {
-                onAction(element.action);
+                onAction(element.action, formData);
               }
             }}
           >
@@ -53,7 +66,7 @@ export default function SDUIEngine({ layout, onAction }) {
         );
 
       default:
-        return null; // Bilinmeyen elementleri güvenli atlar
+        return null;
     }
   };
 

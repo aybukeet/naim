@@ -64,7 +64,7 @@
                  { "type": "text", "content": "Hayalindeki kariyer hedefini buraya yaz...", "style": { "fontSize": 13, "color": "#69663c" } }
                ]}
             ]},
-            { "type": "textInput", "placeholder": "Örn: Sürdürülebilir şehirler...", "multiline": true, "style": { "height": 120, "backgroundColor": "#fcf6b9", "borderRadius": 16, "padding": 20, "fontSize": 16, "borderWidth": 2, "borderColor": "rgba(134, 130, 86, 0.1)", "textAlignVertical": "top", "color": "#3c3914" } }
+            { "type": "textInput", "id": "career_goal", "placeholder": "Örn: Sürdürülebilir şehirler...", "multiline": true, "style": { "height": 120, "backgroundColor": "#fcf6b9", "borderRadius": 16, "padding": 20, "fontSize": 16, "borderWidth": 2, "borderColor": "rgba(134, 130, 86, 0.1)", "textAlignVertical": "top", "color": "#3c3914" } }
           ]
         },
         {
@@ -84,7 +84,7 @@
         {
              "type": "button",
              "content": "Mentörle Tanış ⚡",
-             "action": { "type": "NAVIGATE", "target": "chat" },
+             "action": { "type": "SAVE_PROFILE", "target": "chat" },
              "style": { "backgroundColor": "#ff8fa3", "padding": 24, "borderRadius": 16, "alignItems": "center" },
              "textStyle": { "color": "#fff", "fontSize": 24, "fontWeight": "bold" }
         }
