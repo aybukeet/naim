@@ -1,0 +1,48 @@
+{
+  "screen": {
+    "title": "Kariyer Mentoruna Hoşgeldin",
+    "backgroundColor": "#f4f4f8",
+    "elements": [
+      {
+        "id": "header_text",
+        "type": "text",
+        "content": "CareerMate AI 🚀",
+        "style": {
+          "fontSize": 28,
+          "fontWeight": "bold",
+          "color": "#333",
+          "marginBottom": 10,
+          "textAlign": "center"
+        }
+      },
+      {
+        "id": "desc_text",
+        "type": "text",
+        "content": "Sana özel kariyer planını oluşturmak için JSON'dan okunan dinamik arayüz motoru başarıyla çalışıyor! (Boss Level 25kg)",
+        "style": {
+          "fontSize": 16,
+          "color": "#666",
+          "marginBottom": 30,
+          "textAlign": "center"
+        }
+      },
+      {
+        "id": "start_button",
+        "type": "button",
+        "content": "Teste Başla",
+        "action": "START_TEST",
+        "style": {
+          "backgroundColor": "#007BFF",
+          "padding": 15,
+          "borderRadius": 8,
+          "alignItems": "center"
+        },
+        "textStyle": {
+          "color": "#fff",
+          "fontWeight": "bold",
+          "fontSize": 18
+        }
+      }
+    ]
+  }
+}

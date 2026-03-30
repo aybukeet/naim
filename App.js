@@ -1,20 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
+import SDUIEngine from './components/SDUIEngine';
+import uiData from './ui.json'; // JSON modelini veritabanı gibi içeri aktarıyoruz
 
 export default function App() {
+  // Uygulamanın bütün karmaşık yapısı SDUIEngine içine atıldı.
+  // App.js sadece o anki ekranı çizmekle yükümlü.
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <SafeAreaView style={styles.container}>
+      <SDUIEngine layout={uiData.screen} />
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#fff', // JSON'da tanımlanmamışsa default arkaplan
   },
 });
