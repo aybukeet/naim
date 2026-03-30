@@ -216,6 +216,35 @@ sırada 7. iterasyon var mentorle sohbet ekranı tasarlayalımm mentorun kişili
 
 ---
 
+### 🏋️ Iteration 8 (Boss Level)
+
+| Field | Value |
+|-------|-------|
+| Feature | `Multi-Agent Google Gemini AI Entegrasyonu (LLM)` |
+| Weight | `25 kg` |
+| Tool Used | `Antigravity` |
+| Time | `30 min` |
+| Attempts | `4` |
+| Status | ✅ Success |
+
+**Prompt given to AI:**
+```
+yapay zekanın şimdi multi agentlarla sorularıma cevap üretmesi için yeni adımı kodlayalım
+```
+
+**What happened:**
+- `@google/generative-ai` kütüphanesi projeye dahil edildi.
+- `.env` gizli dosyası oluşturuldu ve Google AI Studio üzerinden alınan anahtar projeye gömüldü. Arayüz tarafında yanlışlıkla `JSON.parse` çökmesini (Tırnaklar, satırlar vb.) önlemek adına Güvenli String Çevirici (SafeString Regex) yazıldı.
+- `services/aiService.js` yazıldı. İçerisinde `academic`, `fun` ve `relaxed` adında 3 farklı Ajan için özel Sistem Komutları (System Prompts) tanımlandı.
+- API'ye bağlantı yetki hatalarıyla çakıştığı için (**404**, **503 High Demand** ve **429 Quota**) sürekli zeka savaşı yaşandı. Sistemin 8192 token sınırına vurması veya yarım cümlenin ortasında boğulması engellendi. En son **gemini-flash-latest** modeli üzerinde %100 saf API bağlantısı optimize edildi ve AI'nin geçmiş form hedefini otomatik anlayarak mükemmel tavsiyeler (Yol Haritaları vb.) harfiyen kesilmeden çalıştırıldı.
+- API Anahtarı GitHub'da çalınmasın diye `.gitignore` temizlendi.
+
+**Screenshot:** 📸 Yapay Zeka ajanının o şahane, sonuna kadar anlattığı Yol Haritası metnini gösteren bir ekran görüntüsü (`assets/iter8.png`).
+
+**Commit:** `[NAIM: CareerMate] Iterasyon 8: Boss Level - Gerçek LLM ve Multi-Agent Sistemi - 25kg`
+
+---
+
 ## 🧠 Reflection (fill at the end)
 
 **Hardest part:**

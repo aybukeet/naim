@@ -4,6 +4,7 @@ import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SDUIEngine from './components/SDUIEngine';
 import uiData from './ui.json';
+import { generateMentorResponse } from './services/aiService';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -29,7 +30,6 @@ export default function App() {
   const [profileData, setProfileData] = useState({});
   const [themeName, setThemeName] = useState('light');
   
-  // ITERATION 7: SOHBET STATE'LERİ
   const [persona, setPersona] = useState('academic');
   const [messages, setMessages] = useState([
     { id: 1, role: 'ai', text: 'Hedefini ($HEDEF$) inceledim. Sana nasıl yardım edebilirim Akademi Öğrencisi?' }
@@ -62,10 +62,8 @@ export default function App() {
       setThemeName(newTheme);
       await AsyncStorage.setItem('@careermate_theme', newTheme);
     }
-    // ITERASYON 7: SOHBET AKSİYONLARI
     else if (action.type === 'SET_PERSONA') {
       setPersona(action.value);
-      // Karakter değişince karşılama mesajını sıfırla
       let greeting = 'Merhaba, ben profesyonel mentörün.';
       if (action.value === 'fun') greeting = 'Hey dostum! Hedefine ($HEDEF$) bayıldım. Birlikte çok eğlenip harika işler çıkaracağız! Ne sormak istiyorsun?';
       if (action.value === 'relaxed') greeting = 'Selam. Hedefin ($HEDEF$) fena durmuyor. Hiç acele etmeden, tadını çıkararak adım adım ilerleyelim. Nasıl yardımcı olayım?';
@@ -77,27 +75,38 @@ export default function App() {
       if (!formPayload.chat_input || formPayload.chat_input.trim() === '') return;
       
       const userMessage = { id: Date.now(), role: 'user', text: formPayload.chat_input };
-      setMessages(prev => [...prev, userMessage]);
+      const waitMessage = { id: Date.now() + 1, role: 'ai', text: 'Yapay Zeka (LLM) Düşünüyor...' };
       
-      // Şimdilik Sahte AI Yanıtı (Iterasyon 8'de geçek LLM olacak)
-      setTimeout(() => {
-        const aiMessage = { 
-          id: Date.now() + 1, 
-          role: 'ai', 
-          text: persona === 'fun' ? 'Hahaha harikasın! Hadi durma denemeye devam!' : (persona === 'relaxed' ? 'Tamamdır, yarın bakarız o işe.' : 'Lütfen araştırma metodolojinizi geliştiriniz.')
-        };
-        setMessages(prev => [...prev, aiMessage]);
-      }, 1000);
+      // Kullanıcı mesajını ve yükleniyor ibaresini anında ekle
+      setMessages(prev => [...prev, userMessage, waitMessage]);
+
+      const goal = profileData.career_goal || "Bilinmiyor";
+      // O anki gerçek geçmiş mesajları temizlemeden aiService'ye gönder (Loading'i dahil etme)
+      const messageHistory = messages.filter(m => m.id !== waitMessage.id && m.text !== waitMessage.text);
+      
+      // ITERATION 8: GERÇEK API ÇAĞRISI
+      try {
+        const aiResponseText = await generateMentorResponse(persona, goal, messageHistory, formPayload.chat_input);
+        
+        // Loading mesajını bulup, gerçeğiyle değiştir
+        setMessages(prev => {
+          const filtered = prev.filter(m => m.id !== waitMessage.id);
+          return [...filtered, { id: Date.now() + 2, role: 'ai', text: aiResponseText }];
+        });
+      } catch (e) {
+        setMessages(prev => {
+          const filtered = prev.filter(m => m.id !== waitMessage.id);
+          return [...filtered, { id: Date.now() + 2, role: 'ai', text: "(Sunucu Hatası: Geri dönüş alınamadı)" }];
+        });
+      }
     }
   };
 
   const getThemeInjectedLayout = () => {
     if (!uiData.screens[currentScreen]) return null;
     
-    // 1. JSON Şablonunu al (Deep Layout)
     const baseLayout = JSON.parse(JSON.stringify(uiData.screens[currentScreen]));
 
-    // 2. Chat Ekranındaysak, Mesajları JSON'a Dinamik (Çocuk) Olarak Enjekte Et!
     if (currentScreen === 'chat') {
       const chatHistoryContainer = baseLayout.elements.find(e => e.id === 'chatHistory');
       if (chatHistoryContainer) {
@@ -122,16 +131,14 @@ export default function App() {
       }
     }
 
-    // 3. Stringify & Değişken Taraması
     let layoutStr = JSON.stringify(baseLayout);
     
-    // Tema Kodları
+    // Uygulama Teması Değişken Taraması
     const currentTheme = uiData.themes[themeName] || uiData.themes['light'];
     for (const key in currentTheme) {
       layoutStr = layoutStr.split(key).join(currentTheme[key]);
     }
 
-    // Persona ve Veri Etiketleri ($MENTOR_AVATAR$, $USER_HEDEF$)
     let avatarName = 'Zihin Mentoru'; let avatarIcon = '🤖';
     if (persona === 'fun') { avatarName = 'Eğlenceli Mentör'; avatarIcon = '🥳'; }
     if (persona === 'relaxed') { avatarName = 'Rahat Mentör'; avatarIcon = '😎'; }
@@ -140,11 +147,18 @@ export default function App() {
     layoutStr = layoutStr.split('$MENTOR_TYPE_TEXT$').join(avatarName);
     layoutStr = layoutStr.split('$MENTOR_AVATAR$').join(avatarIcon);
     
-    // AI mesajları içerisindeki $HEDEF$ etiketini, cihaz hafızasından gelen amaçla doldur
-    const userGoal = profileData.career_goal ? profileData.career_goal.substring(0, 30) + '...' : 'bilinmeyen hedef';
-    layoutStr = layoutStr.split('$HEDEF$').join(userGoal);
+    const userGoal = profileData.career_goal ? profileData.career_goal.substring(0, 50) + '...' : 'bilinmeyen hedef';
     
-    return JSON.parse(layoutStr);
+    // JSON.parse() çökmesini önlemek için kullanıcı girdisini güvenli hale getiriyoruz (Tırnak ve Alt Satır koruması)
+    const safeUserGoal = userGoal.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+    layoutStr = layoutStr.split('$HEDEF$').join(safeUserGoal);
+    
+    try {
+      return JSON.parse(layoutStr);
+    } catch (e) {
+      console.error("JSON Çizim Hatası:", e, " \n\n Sorunlu string:", layoutStr);
+      return null;
+    }
   };
 
   const currentLayout = getThemeInjectedLayout();
