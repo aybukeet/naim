@@ -2,73 +2,103 @@
   "screens": {
     "home": {
       "title": "Ana Ekran",
-      "backgroundColor": "#f4f4f8",
+      "style": { "backgroundColor": "#f4f4f8", "justifyContent": "center" },
       "elements": [
         {
           "id": "header",
           "type": "text",
           "content": "CareerMate AI 🚀",
-          "style": { "fontSize": 28, "fontWeight": "bold", "color": "#333", "marginBottom": 20, "textAlign": "center" }
+          "style": { "fontSize": 32, "fontWeight": "bold", "color": "#362459", "marginBottom": 20, "textAlign": "center" }
+        },
+        {
+          "type": "text",
+          "content": "Yeni 'Stitch' profil testini görmek için tıkla!",
+          "style": { "fontSize": 16, "color": "#69663c", "marginBottom": 30, "textAlign": "center" }
         },
         {
           "id": "goToProfile",
           "type": "button",
-          "content": "Kariyer Profilini Çıkar",
+          "content": "✨ Kariyer Profilini Çıkar",
           "action": { "type": "NAVIGATE", "target": "profile" },
-          "style": { "backgroundColor": "#007BFF", "padding": 15, "borderRadius": 8, "marginBottom": 15, "alignItems": "center" },
-          "textStyle": { "color": "#fff", "fontWeight": "bold", "fontSize": 16 }
-        },
-        {
-          "id": "goToChat",
-          "type": "button",
-          "content": "AI Mentör ile Görüş",
-          "action": { "type": "NAVIGATE", "target": "chat" },
-          "style": { "backgroundColor": "#28A745", "padding": 15, "borderRadius": 8, "alignItems": "center" },
-          "textStyle": { "color": "#fff", "fontWeight": "bold", "fontSize": 16 }
+          "style": { "backgroundColor": "#d6beff", "padding": 20, "borderRadius": 15, "marginBottom": 15, "alignItems": "center" },
+          "textStyle": { "color": "#362459", "fontWeight": "900", "fontSize": 18 }
         }
       ]
     },
     "profile": {
       "title": "Profil Ekranı",
-      "backgroundColor": "#fff",
+      "style": { "backgroundColor": "#fffbff" },
       "elements": [
         {
-          "id": "p_title",
-          "type": "text",
-          "content": "Test Ekranı",
-          "style": { "fontSize": 24, "fontWeight": "bold", "marginBottom": 20 }
+          "type": "container",
+          "style": { "flexDirection": "row", "justifyContent": "space-between", "marginBottom": 15, "marginTop": 10 },
+          "children": [
+            { "type": "text", "content": "PROFİL TAMAMLAMA: SEVİYE 1", "style": { "fontSize": 10, "fontWeight": "bold", "color": "#69663c", "letterSpacing": 1.5 } },
+            { "type": "text", "content": "XP 250/1000", "style": { "fontSize": 12, "fontWeight": "bold", "fontStyle": "italic", "color": "#6e5a93" } }
+          ]
         },
         {
-          "id": "p_desc",
           "type": "text",
-          "content": "JSON verisine göre buraya geldin. Bir sonraki aşamada (İterasyon 4) buraya Text Input'lar ile test formumuzu ekleyeceğiz.",
-          "style": { "fontSize": 16, "marginBottom": 30, "color": "#555", "lineHeight": 24 }
+          "content": "Seni Tanıyalım",
+          "style": { "fontSize": 44, "fontWeight": "900", "color": "#3c3914", "marginBottom": 10, "textAlign": "center" }
         },
         {
-          "id": "backToHome",
-          "type": "button",
-          "content": "⬅ Geri Dön",
-          "action": { "type": "NAVIGATE", "target": "home" },
-          "style": { "backgroundColor": "#6c757d", "padding": 12, "borderRadius": 8, "alignItems": "center" },
-          "textStyle": { "color": "#fff", "fontSize": 16 }
+          "type": "text",
+          "content": "Gelecekteki benliğini inşa etmeye hazır mısın? Kariyer yolculuğun burada başlıyor.",
+          "style": { "fontSize": 16, "color": "#69663c", "marginBottom": 40, "textAlign": "center", "paddingHorizontal": 20 }
+        },
+        {
+          "type": "container",
+          "style": { 
+             "backgroundColor": "rgba(255, 251, 255, 0.8)", 
+             "borderRadius": 24, 
+             "padding": 25, 
+             "marginBottom": 40,
+             "borderWidth": 2, "borderColor": "rgba(134, 130, 86, 0.2)"
+          },
+          "children": [
+            { "type": "container", "style": {"flexDirection": "row", "marginBottom": 15, "alignItems": "center"}, "children": [
+               { "type": "text", "content": "🎮", "style": { "fontSize": 24, "marginRight": 10, "backgroundColor": "#bdefbe", "padding": 8, "borderRadius": 12, "overflow": "hidden" } },
+               { "type": "container", "style": {}, "children": [
+                 { "type": "text", "content": "Hedefini Tanımla", "style": { "fontSize": 20, "fontWeight": "bold", "color": "#3c3914", "marginBottom": 2 } },
+                 { "type": "text", "content": "Hayalindeki kariyer hedefini buraya yaz...", "style": { "fontSize": 13, "color": "#69663c" } }
+               ]}
+            ]},
+            { "type": "textInput", "placeholder": "Örn: Sürdürülebilir şehirler...", "multiline": true, "style": { "height": 120, "backgroundColor": "#fcf6b9", "borderRadius": 16, "padding": 20, "fontSize": 16, "borderWidth": 2, "borderColor": "rgba(134, 130, 86, 0.1)", "textAlignVertical": "top", "color": "#3c3914" } }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "⭐ POPÜLER GÖREVLER",
+          "style": { "fontSize": 12, "fontWeight": "bold", "letterSpacing": 2, "color": "#3c3914", "marginBottom": 15 }
+        },
+        {
+          "type": "container",
+          "style": { "flexDirection": "row", "flexWrap": "wrap", "marginBottom": 50 },
+          "children": [
+            { "type": "button", "content": "🌍 Uzay Mimarı", "style": { "backgroundColor": "#bdefbe", "paddingHorizontal": 20, "paddingVertical": 12, "borderRadius": 25, "borderWidth": 2, "borderColor": "rgba(134, 130, 86, 0.15)", "marginRight": 10, "marginBottom": 10 }, "textStyle": { "color": "#1c4825", "fontWeight": "bold" } },
+            { "type": "button", "content": "🧠 AI Etik Uzmanı", "style": { "backgroundColor": "#d6beff", "paddingHorizontal": 20, "paddingVertical": 12, "borderRadius": 25, "borderWidth": 2, "borderColor": "rgba(134, 130, 86, 0.15)", "marginRight": 10, "marginBottom": 10 }, "textStyle": { "color": "#362459", "fontWeight": "bold" } },
+            { "type": "button", "content": "🌱 Sürdürülebilirlik", "style": { "backgroundColor": "#95cfff", "paddingHorizontal": 20, "paddingVertical": 12, "borderRadius": 25, "borderWidth": 2, "borderColor": "rgba(134, 130, 86, 0.15)", "marginRight": 10, "marginBottom": 10 }, "textStyle": { "color": "#00314c", "fontWeight": "bold" } }
+          ]
+        },
+        {
+             "type": "button",
+             "content": "Mentörle Tanış ⚡",
+             "action": { "type": "NAVIGATE", "target": "chat" },
+             "style": { "backgroundColor": "#ff8fa3", "padding": 24, "borderRadius": 16, "alignItems": "center" },
+             "textStyle": { "color": "#fff", "fontSize": 24, "fontWeight": "bold" }
         }
       ]
     },
     "chat": {
       "title": "Mentör Ekranı",
-      "backgroundColor": "#E9ECEF",
+      "style": { "backgroundColor": "#E9ECEF", "justifyContent": "center" },
       "elements": [
         {
           "id": "c_title",
           "type": "text",
-          "content": "🤖 Mentör Sohbeti",
-          "style": { "fontSize": 24, "fontWeight": "bold", "marginBottom": 20 }
-        },
-        {
-          "id": "c_desc",
-          "type": "text",
-          "content": "Sihirli bir şekilde chat ekranına geçtik! Bütün bu sayfaları App.js hiç bilmiyor, tamamen ui.json yönlendiriyor.",
-          "style": { "fontSize": 16, "marginBottom": 30, "color": "#555" }
+          "content": "🤖 Mentör Analiz Ediyor...",
+          "style": { "fontSize": 24, "fontWeight": "bold", "marginBottom": 20, "textAlign": "center" }
         },
         {
           "id": "backToHome",

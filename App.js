@@ -1,17 +1,38 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import SDUIEngine from './components/SDUIEngine';
 import uiData from './ui.json';
 
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 }}>
+          <Text style={{ color: 'red', fontSize: 24, fontWeight: 'bold' }}>UI Çizim Hatası!</Text>
+          <Text style={{ color: '#333', marginTop: 10 }}>{this.state.error?.message}</Text>
+          <Text style={{ color: '#666', marginTop: 10, fontSize: 10 }}>Lütfen resmi Antigravity'ye raporla.</Text>
+        </View>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 export default function App() {
-  // Başlangıç ekranı 'home'
   const [currentScreen, setCurrentScreen] = useState('home');
 
-  // JSON Motorundan gelen navigasyon veya aksiyon komutlarını dinler
   const handleAction = (action) => {
     if (action.type === 'NAVIGATE') {
-      // Eğer hedef ekran JSON dosyamızda tanımlıysa oraya geçiş yap
       if (uiData.screens[action.target]) {
         setCurrentScreen(action.target);
       } else {
@@ -22,14 +43,17 @@ export default function App() {
     }
   };
 
-  // Şu anki sayfanın JSON düzenini al
   const currentLayout = uiData.screens[currentScreen];
 
   return (
     <SafeAreaView style={styles.container}>
-      {currentLayout ? (
-        <SDUIEngine layout={currentLayout} onAction={handleAction} />
-      ) : null}
+      <ErrorBoundary>
+        {currentLayout ? (
+          <SDUIEngine layout={currentLayout} onAction={handleAction} />
+        ) : (
+          <Text>Sayfa Yükleniyor veya Bulunamadı...</Text>
+        )}
+      </ErrorBoundary>
       <StatusBar style="auto" />
     </SafeAreaView>
   );
