@@ -187,6 +187,35 @@ iterasyon 6 için koyu modu ayarlayalım ve diğer sayfalalrın tasarımını da
 
 ---
 
+### 🏋️ Iteration 7
+
+| Field | Value |
+|-------|-------|
+| Feature | `Çoklu Persona'ya Sahip İnteraktif Mentor Sohbet Arayüzü` |
+| Weight | `10 kg` |
+| Tool Used | `Antigravity` |
+| Time | `15 min` |
+| Attempts | `1` |
+| Status | ✅ Success |
+
+**Prompt given to AI:**
+```
+sırada 7. iterasyon var mentorle sohbet ekranı tasarlayalımm mentorun kişiliği seçilebilir olucaktı
+```
+
+**What happened:**
+- `ui.json` koduna Chat (Sohbet) sayfası için özel bir ara katman (Header, Avatar, Mesaj Kutuları) yazıldı.
+- `App.js` içerisine **Persona State** özelliği getirildi (Yoda, Elon Musk, Kurumsal CEO). 
+- **JSON Mesaj Enjeksiyonu:** JSON'daki `$HEDEF$` tag'leri cihaz hafızasından gelen asıl kariyer hedefiyle, Avatar resimleri de seçilen karaktere göre değiştirilerek ekrana "canlı" olarak yansıtıldı.
+- `SDUIEngine.js` kullanıcının mesaj attığı anda klavyeyi/input'u temizlemesi için programlandı (Aksiyon type: `SEND_MESSAGE`).
+- Sohbet ekranında sahte (mock) AI bekleme süresi ve role göre (user/ai) değişen Neo-brutal renkli baloncuklar tasarlandı. Bu sayede JSON tamamen interaktif, hareketli bir AI uygulamasına dönüştü.
+
+**Screenshot:** 📸 Mentor ekranına gir, Yoda veya Elon Musk butonlarından birine tıkla, giriş yazısının `$HEDEF$`ine göre değiştiğini gör! Bir mesaj yolla (Sana mock bir cevap verecek), bu şık sohbet pencereni Ss al (`assets/iter7.png`).
+
+**Commit:** `[NAIM: CareerMate] Iterasyon 7: Etkileşimli SDUI Chat ve Persona Modeli - 10kg`
+
+---
+
 ## 🧠 Reflection (fill at the end)
 
 **Hardest part:**

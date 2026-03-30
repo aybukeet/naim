@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 
 export default function SDUIEngine({ layout, onAction, initialState = {} }) {
-  // Kullanıcının anket ve text formlarındaki değerlerini tuttuğumuz yer.
   const [formData, setFormData] = useState(initialState);
 
-  // Dışarıdan yeni initialState (storage yüklenince) gelince senkronize ediyoruz
   useEffect(() => {
-    setFormData(initialState);
+    // Profil datasından initial state gelirse form data içerisine aktarıyoruz (ilk açılışta)
+    // Sadece chat_input boş değilken (manuel yazarken) silinmemesi için merge ediyoruz
+    setFormData(prev => ({ ...initialState, ...prev }));
   }, [initialState]);
 
   if (!layout || !layout.elements) return null;
@@ -52,9 +52,13 @@ export default function SDUIEngine({ layout, onAction, initialState = {} }) {
             style={element.style}
             activeOpacity={0.8}
             onPress={() => {
-              // Butona basıldığında, o ana kadar toplanan form verilerini de App.js'e yolla
               if (element.action) {
                 onAction(element.action, formData);
+                
+                // Eğer sohbet mesajı atıldıysa (action type: SEND_MESSAGE), inputu anında temizle
+                if (element.action.type === 'SEND_MESSAGE') {
+                   setFormData(prev => ({...prev, chat_input: ''}));
+                }
               }
             }}
           >

@@ -10,7 +10,9 @@
       "$PRIMARY_TXT$": "#362459",
       "$BUTTON_BG$": "#ff8fa3",
       "$INPUT_BG$": "#fcf6b9",
-      "$CHIP_BG$": "#bdefbe"
+      "$CHIP_BG$": "#bdefbe",
+      "$CHAT_BUBBLE_USER$": "#d6beff",
+      "$CHAT_BUBBLE_AI$": "#ffffff"
     },
     "dark": {
       "$BG$": "#1a1a2e",
@@ -22,7 +24,9 @@
       "$PRIMARY_TXT$": "#e9e9eb",
       "$BUTTON_BG$": "#e94560",
       "$INPUT_BG$": "#16213e",
-      "$CHIP_BG$": "#16213e"
+      "$CHIP_BG$": "#16213e",
+      "$CHAT_BUBBLE_USER$": "#e94560",
+      "$CHAT_BUBBLE_AI$": "#1f2a48"
     }
   },
   "screens": {
@@ -32,24 +36,10 @@
       "elements": [
         {
           "type": "container",
-          "style": { 
-             "backgroundColor": "$CARD_BG$", 
-             "borderRadius": 24, 
-             "padding": 25, 
-             "borderWidth": 2, "borderColor": "$BORDER$",
-             "marginBottom": 30
-          },
+          "style": { "backgroundColor": "$CARD_BG$", "borderRadius": 24, "padding": 25, "borderWidth": 2, "borderColor": "$BORDER$", "marginBottom": 30 },
           "children": [
-            {
-              "type": "text",
-              "content": "CareerMate AI 🚀",
-              "style": { "fontSize": 36, "fontWeight": "900", "color": "$TEXT$", "marginBottom": 15, "textAlign": "center" }
-            },
-            {
-              "type": "text",
-              "content": "Dinamik Tema (Dark/Light Mode) destekli, tamamen Server-Driven yapay zeka mentorun.",
-              "style": { "fontSize": 16, "color": "$TEXT_MUTED$", "textAlign": "center" }
-            }
+            { "type": "text", "content": "CareerMate AI 🚀", "style": { "fontSize": 36, "fontWeight": "900", "color": "$TEXT$", "marginBottom": 15, "textAlign": "center" } },
+            { "type": "text", "content": "Dinamik Tema (Dark/Light Mode) destekli, tamamen Server-Driven yapay zeka mentorun.", "style": { "fontSize": 16, "color": "$TEXT_MUTED$", "textAlign": "center" } }
           ]
         },
         {
@@ -94,13 +84,7 @@
         },
         {
           "type": "container",
-          "style": { 
-             "backgroundColor": "$CARD_BG$", 
-             "borderRadius": 24, 
-             "padding": 25, 
-             "marginBottom": 40,
-             "borderWidth": 2, "borderColor": "$BORDER$"
-          },
+          "style": { "backgroundColor": "$CARD_BG$", "borderRadius": 24, "padding": 25, "marginBottom": 40, "borderWidth": 2, "borderColor": "$BORDER$" },
           "children": [
             { "type": "container", "style": {"flexDirection": "row", "marginBottom": 15, "alignItems": "center"}, "children": [
                { "type": "text", "content": "🎮", "style": { "fontSize": 24, "marginRight": 10, "backgroundColor": "$CHIP_BG$", "padding": 8, "borderRadius": 12, "overflow": "hidden" } },
@@ -129,31 +113,44 @@
       ]
     },
     "chat": {
-      "title": "Mentör Ekranı",
+      "title": "Mentör Sohbet",
       "style": { "backgroundColor": "$BG$" },
       "elements": [
         {
           "type": "container",
-          "style": { "flexDirection": "row", "alignItems": "center", "paddingVertical": 10, "borderBottomWidth": 2, "borderColor": "$BORDER$", "marginBottom": 20 },
+          "style": { "flexDirection": "row", "alignItems": "center", "justifyContent": "space-between", "paddingBottom": 15, "borderBottomWidth": 2, "borderColor": "$BORDER$", "marginBottom": 15 },
           "children": [
             { "type": "button", "content": "⬅", "action": { "type": "NAVIGATE", "target": "profile" }, "style": { "padding": 10, "backgroundColor": "$CARD_BG$", "borderRadius": 10 }, "textStyle": { "color": "$TEXT$" } },
-            { "type": "text", "content": "🤖 CareerMate Mentör", "style": { "fontSize": 20, "fontWeight": "bold", "color": "$TEXT$", "marginLeft": 15 } }
+            { "type": "text", "content": "$MENTOR_TYPE_TEXT$", "style": { "fontSize": 22, "fontWeight": "900", "color": "$TEXT$" } },
+            { "type": "text", "content": "$MENTOR_AVATAR$", "style": { "fontSize": 28 } }
           ]
         },
         {
-          "type": "container",
-          "style": { "backgroundColor": "$CARD_BG$", "padding": 20, "borderRadius": 20, "marginBottom": 15, "borderWidth": 2, "borderColor": "$BORDER$" },
-          "children": [
-            { "type": "text", "content": "Sen:", "style": { "fontSize": 12, "fontWeight": "bold", "color": "$TEXT_MUTED$", "marginBottom": 5 } },
-            { "id": "display_goal", "type": "text", "content": "$USER_HEDEF$", "style": { "fontSize": 16, "color": "$TEXT$" } }
-          ]
+          "type": "text",
+          "content": "Karakter Değiştir:",
+          "style": { "fontSize": 12, "fontWeight": "bold", "color": "$TEXT_MUTED$", "marginBottom": 10 }
         },
         {
           "type": "container",
-          "style": { "backgroundColor": "$PRIMARY$", "padding": 20, "borderRadius": 20, "marginBottom": 15 },
+          "style": { "flexDirection": "row", "justifyContent": "space-between", "marginBottom": 20 },
           "children": [
-            { "type": "text", "content": "AI Mentör:", "style": { "fontSize": 12, "fontWeight": "bold", "color": "rgba(255,255,255,0.7)", "marginBottom": 5 } },
-            { "type": "text", "content": "Hedefini inceledim! Çok vizyoner bir bakış açısı. Senin için bir eğitim rotası planlıyorum... (Bir Sonraki İterasyonda API Bağlanacak)", "style": { "fontSize": 16, "color": "$PRIMARY_TXT$" } }
+            { "type": "button", "content": "🥳 Eğlenceli", "action": { "type": "SET_PERSONA", "value": "fun" }, "style": { "backgroundColor": "$CHIP_BG$", "padding": 10, "borderRadius": 12, "borderWidth": 1, "borderColor": "$BORDER$" }, "textStyle": { "color": "$TEXT$", "fontWeight": "bold", "fontSize": 14 } },
+            { "type": "button", "content": "😎 Rahat", "action": { "type": "SET_PERSONA", "value": "relaxed" }, "style": { "backgroundColor": "$CHIP_BG$", "padding": 10, "borderRadius": 12, "borderWidth": 1, "borderColor": "$BORDER$" }, "textStyle": { "color": "$TEXT$", "fontWeight": "bold", "fontSize": 14 } },
+            { "type": "button", "content": "🎓 Akademik", "action": { "type": "SET_PERSONA", "value": "academic" }, "style": { "backgroundColor": "$CHIP_BG$", "padding": 10, "borderRadius": 12, "borderWidth": 1, "borderColor": "$BORDER$" }, "textStyle": { "color": "$TEXT$", "fontWeight": "bold", "fontSize": 14 } }
+          ]
+        },
+        {
+          "id": "chatHistory",
+          "type": "container",
+          "style": { "flexGrow": 1, "minHeight": 300, "marginBottom": 20, "backgroundColor": "$INPUT_BG$", "borderRadius": 24, "padding": 15, "borderWidth": 1, "borderColor": "$BORDER$" },
+          "children": [] 
+        },
+        {
+          "type": "container",
+          "style": { "flexDirection": "row", "alignItems": "center" },
+          "children": [
+            { "type": "textInput", "id": "chat_input", "placeholder": "Mentöre sor...", "style": { "flex": 1, "backgroundColor": "$CARD_BG$", "height": 60, "borderRadius": 30, "paddingHorizontal": 20, "fontSize": 16, "borderWidth": 2, "borderColor": "$BORDER$", "color": "$TEXT$", "marginRight": 10 } },
+            { "type": "button", "content": "➤", "action": { "type": "SEND_MESSAGE" }, "style": { "backgroundColor": "$BUTTON_BG$", "width": 60, "height": 60, "borderRadius": 30, "alignItems": "center", "justifyContent": "center" }, "textStyle": { "color": "#fff", "fontSize": 24, "fontWeight": "bold", "marginTop": -5 } }
           ]
         }
       ]
