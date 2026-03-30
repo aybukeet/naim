@@ -57,3 +57,38 @@ export const generateMentorResponse = async (persona, targetGoal, chatHistory, u
     return `(Ajan Sunucu Hatası: ${err.message})`;
   }
 };
+
+export const generateEuropassCV = async (cvData) => {
+  if (!genAI) {
+    return "(Sistem: API Anahtarı eksik. CV Üretilemedi.)";
+  }
+
+  // En stabi LLM olan flash-latest kullanımı
+  const model = genAI.getGenerativeModel({ model: 'gemini-flash-latest' });
+
+  const prompt = `Sen uluslararası bir İnsan Kaynakları (HR) uzmanı ve ATS (Aday Takip Sistemi) optimizatörüsün.
+Aşağıda kullanıcının doldurduğu dağınık ham veriler var. Bu verileri kullanarak tamamen yapılandırılmış, ATS sistemlerinden %100 geçecek profesyonel bir Europass formatında CV metni oluştur.
+
+--- KULLANICI VERİLERİ ---
+Ad Soyad: ${cvData.cv_name || 'Belirtilmedi'}
+İletişim: ${cvData.cv_contact || 'Belirtilmedi'}
+Şehir: ${cvData.cv_city || 'Belirtilmedi'}
+Eğitim: ${cvData.cv_edu || 'Belirtilmedi'}
+Deneyimler: ${cvData.cv_exp || 'Belirtilmedi'}
+Önemli Başarılar: ${cvData.cv_achievements || 'Belirtilmedi'}
+Yetenekler ve Diller: ${cvData.cv_skills || 'Belirtilmedi'}
+Güçlü Yönler (Prof. Özet İçin): ${cvData.cv_strengths || 'Belirtilmedi'}
+Ekstra (Sertifika, Staj vb): ${cvData.cv_bonus || 'Belirtilmedi'}
+--------------------------
+
+Lütfen markdown (kalın yazılar vs) kullanarak okunaklı, profesyonel bir dil ile doğrudan CV metnini ver. (Ekstra açıklama yazma, direkt CV başlasın).`;
+
+  try {
+    const result = await model.generateContent(prompt);
+    return result.response.text();
+  } catch (err) {
+    console.error("CV Üretim Hatası:", err);
+    return `(CV Sunucu Hatası: ${err.message}. Yoğunluk varsa biraz bekleyip tekrar deneyin.)`;
+  }
+};
+

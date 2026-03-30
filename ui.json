@@ -51,6 +51,14 @@
           "textStyle": { "color": "$PRIMARY_TXT$", "fontWeight": "900", "fontSize": 18 }
         },
         {
+          "id": "goToCV",
+          "type": "button",
+          "content": "🎓 Europass ATS CV'ni Üret",
+          "action": { "type": "NAVIGATE", "target": "cv_form" },
+          "style": { "backgroundColor": "$PRIMARY$", "padding": 20, "borderRadius": 16, "marginBottom": 15, "alignItems": "center" },
+          "textStyle": { "color": "$PRIMARY_TXT$", "fontWeight": "900", "fontSize": 18 }
+        },
+        {
           "id": "themeToggle",
           "type": "button",
           "content": "🌗 Gece/Gündüz Modu",
@@ -151,6 +159,69 @@
           "children": [
             { "type": "textInput", "id": "chat_input", "placeholder": "Mentöre sor...", "style": { "flex": 1, "backgroundColor": "$CARD_BG$", "height": 60, "borderRadius": 30, "paddingHorizontal": 20, "fontSize": 16, "borderWidth": 2, "borderColor": "$BORDER$", "color": "$TEXT$", "marginRight": 10 } },
             { "type": "button", "content": "➤", "action": { "type": "SEND_MESSAGE" }, "style": { "backgroundColor": "$BUTTON_BG$", "width": 60, "height": 60, "borderRadius": 30, "alignItems": "center", "justifyContent": "center" }, "textStyle": { "color": "#fff", "fontSize": 24, "fontWeight": "bold", "marginTop": -5 } }
+          ]
+        }
+      ]
+    },
+    "cv_form": {
+      "title": "CV Oluşturma Formu",
+      "style": { "backgroundColor": "$BG$" },
+      "elements": [
+        { "type": "text", "content": "ATS Europass Uyumlu CV Tasarla", "style": { "fontSize": 32, "fontWeight": "900", "color": "$TEXT$", "marginBottom": 10, "textAlign": "center" } },
+        { "type": "text", "content": "1. Adınız Soyadınız nedir?", "style": { "fontSize": 16, "fontWeight": "bold", "color": "$TEXT$", "marginBottom": 5 } },
+        { "type": "textInput", "id": "cv_name", "placeholder": "Örn: Ahmet Yılmaz", "style": { "backgroundColor": "$INPUT_BG$", "borderRadius": 12, "padding": 15, "fontSize": 16, "borderWidth": 1, "borderColor": "$BORDER$", "color": "$TEXT$", "marginBottom": 15 } },
+
+        { "type": "text", "content": "2. Telefon numaranız ve profesyonel e-posta adresiniz?", "style": { "fontSize": 16, "fontWeight": "bold", "color": "$TEXT$", "marginBottom": 5 } },
+        { "type": "textInput", "id": "cv_contact", "placeholder": "Örn: 0555... / email@mail.com", "style": { "backgroundColor": "$INPUT_BG$", "borderRadius": 12, "padding": 15, "fontSize": 16, "borderWidth": 1, "borderColor": "$BORDER$", "color": "$TEXT$", "marginBottom": 15 } },
+
+        { "type": "text", "content": "3. Yaşadığınız Şehir?", "style": { "fontSize": 16, "fontWeight": "bold", "color": "$TEXT$", "marginBottom": 5 } },
+        { "type": "textInput", "id": "cv_city", "placeholder": "Sadece il yeterli (Örn: İstanbul)", "style": { "backgroundColor": "$INPUT_BG$", "borderRadius": 12, "padding": 15, "fontSize": 16, "borderWidth": 1, "borderColor": "$BORDER$", "color": "$TEXT$", "marginBottom": 15 } },
+
+        { "type": "text", "content": "4. En son okul, bölüm, yıl (Mezunsanız Not Ort.)?", "style": { "fontSize": 16, "fontWeight": "bold", "color": "$TEXT$", "marginBottom": 5 } },
+        { "type": "textInput", "id": "cv_edu", "placeholder": "Eğitim bilgilerinizi listeleyin", "multiline": true, "style": { "minHeight": 60, "backgroundColor": "$INPUT_BG$", "borderRadius": 12, "padding": 15, "fontSize": 16, "borderWidth": 1, "borderColor": "$BORDER$", "color": "$TEXT$", "marginBottom": 15 } },
+
+        { "type": "text", "content": "5. Daha önce nerelerde çalıştınız? Ne yaptınız?", "style": { "fontSize": 16, "fontWeight": "bold", "color": "$TEXT$", "marginBottom": 5 } },
+        { "type": "textInput", "id": "cv_exp", "placeholder": "Şirket adı, Unvan, Tarihler ve Sorumluluklarınız", "multiline": true, "style": { "minHeight": 80, "backgroundColor": "$INPUT_BG$", "borderRadius": 12, "padding": 15, "fontSize": 16, "borderWidth": 1, "borderColor": "$BORDER$", "color": "$TEXT$", "marginBottom": 15 } },
+
+        { "type": "text", "content": "6. Gurur duyduğunuz başarılarınız? (Mümkünse sayı ile)", "style": { "fontSize": 16, "fontWeight": "bold", "color": "$TEXT$", "marginBottom": 5 } },
+        { "type": "textInput", "id": "cv_achievements", "placeholder": "Örn: Satışları %25 artırdım, X projesini tamamladım", "multiline": true, "style": { "minHeight": 60, "backgroundColor": "$INPUT_BG$", "borderRadius": 12, "padding": 15, "fontSize": 16, "borderWidth": 1, "borderColor": "$BORDER$", "color": "$TEXT$", "marginBottom": 15 } },
+
+        { "type": "text", "content": "7. Hangi programları, araçları, dilleri biliyorsunuz?", "style": { "fontSize": 16, "fontWeight": "bold", "color": "$TEXT$", "marginBottom": 5 } },
+        { "type": "textInput", "id": "cv_skills", "placeholder": "Bilgisayar, ofis programları, yabancı dil vs.", "multiline": true, "style": { "minHeight": 60, "backgroundColor": "$INPUT_BG$", "borderRadius": 12, "padding": 15, "fontSize": 16, "borderWidth": 1, "borderColor": "$BORDER$", "color": "$TEXT$", "marginBottom": 15 } },
+
+        { "type": "text", "content": "8. Başvurduğunuz iş için 3-4 güçlü yönünüz?", "style": { "fontSize": 16, "fontWeight": "bold", "color": "$TEXT$", "marginBottom": 5 } },
+        { "type": "textInput", "id": "cv_strengths", "placeholder": "Profesyonel Özet kısmı için", "multiline": true, "style": { "minHeight": 60, "backgroundColor": "$INPUT_BG$", "borderRadius": 12, "padding": 15, "fontSize": 16, "borderWidth": 1, "borderColor": "$BORDER$", "color": "$TEXT$", "marginBottom": 15 } },
+
+        { "type": "text", "content": "9. Bonus (Sertifika, Staj, Referans vs.)", "style": { "fontSize": 16, "fontWeight": "bold", "color": "$TEXT$", "marginBottom": 5 } },
+        { "type": "textInput", "id": "cv_bonus", "placeholder": "Varsa eklemek istedikleriniz", "multiline": true, "style": { "minHeight": 60, "backgroundColor": "$INPUT_BG$", "borderRadius": 12, "padding": 15, "fontSize": 16, "borderWidth": 1, "borderColor": "$BORDER$", "color": "$TEXT$", "marginBottom": 25 } },
+
+        {
+          "type": "button",
+          "content": "🚀 Yapay Zeka ile CV'mi Üret! (Beklemesi uzun sürebilir)",
+          "action": { "type": "GENERATE_CV_ACTION" },
+          "style": { "backgroundColor": "$BUTTON_BG$", "padding": 24, "borderRadius": 16, "alignItems": "center", "marginBottom": 15 },
+          "textStyle": { "color": "#fff", "fontSize": 18, "fontWeight": "bold" }
+        },
+        {
+           "type": "button",
+           "content": "⬅ Ana Ekrana Dön",
+           "action": { "type": "NAVIGATE", "target": "home" },
+           "style": { "backgroundColor": "transparent", "padding": 15, "borderRadius": 16, "borderWidth": 2, "borderColor": "$BORDER$", "alignItems": "center", "marginBottom": 40 },
+           "textStyle": { "color": "$TEXT$", "fontWeight": "bold", "fontSize": 16 }
+        }
+      ]
+    },
+    "cv_result": {
+      "title": "Üretilen CV",
+      "style": { "backgroundColor": "$BG$" },
+      "elements": [
+        { "type": "text", "content": "🎓 CV'niz Hazır!", "style": { "fontSize": 32, "fontWeight": "900", "color": "$TEXT$", "marginTop": 10, "marginBottom": 15, "textAlign": "center" } },
+        { "type": "button", "content": "⬅ Düzenle / Başa Dön", "action": { "type": "NAVIGATE", "target": "home" }, "style": { "backgroundColor": "$CHIP_BG$", "padding": 15, "borderRadius": 16, "alignItems": "center", "marginBottom": 20 }, "textStyle": { "color": "$TEXT$", "fontWeight": "bold", "fontSize": 16 } },
+        {
+          "type": "container",
+          "style": { "backgroundColor": "$CARD_BG$", "borderRadius": 24, "padding": 20, "borderWidth": 2, "borderColor": "$BORDER$", "marginBottom": 40 },
+          "children": [
+            { "type": "text", "content": "$EUROPASS_CV_TEXT$", "style": { "fontSize": 14, "color": "$TEXT$", "lineHeight": 22 } }
           ]
         }
       ]

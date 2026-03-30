@@ -4,7 +4,7 @@ import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SDUIEngine from './components/SDUIEngine';
 import uiData from './ui.json';
-import { generateMentorResponse } from './services/aiService';
+import { generateMentorResponse, generateEuropassCV } from './services/aiService';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -61,6 +61,21 @@ export default function App() {
       const newTheme = themeName === 'light' ? 'dark' : 'light';
       setThemeName(newTheme);
       await AsyncStorage.setItem('@careermate_theme', newTheme);
+    } else if (action.type === 'GENERATE_CV_ACTION') {
+      setCurrentScreen('cv_result');
+      
+      // Form verilerini yedekle ve Yükleniyor durumunu geçici CV metni yap
+      const currentProfileData = { ...profileData, ...formPayload, europass_cv: "Yapay zeka verilerini analiz edip sana özel o ATS uyumlu kusursuz CV'yi yazıyor.\n\nLütfen formu terk etmeden 10-15 saniye kadar bekle! 🚀..." };
+      setProfileData(currentProfileData);
+      
+      // AI'ın donmasını engellemek için isteği hafif bir bekleme ile yolla
+      setTimeout(async () => {
+         const generatedCV = await generateEuropassCV(formPayload);
+         const finalProfile = { ...currentProfileData, europass_cv: generatedCV };
+         await AsyncStorage.setItem('@careermate_profile', JSON.stringify(finalProfile));
+         setProfileData(finalProfile);
+      }, 500);
+
     }
     else if (action.type === 'SET_PERSONA') {
       setPersona(action.value);
@@ -148,6 +163,11 @@ export default function App() {
     layoutStr = layoutStr.split('$MENTOR_AVATAR$').join(avatarIcon);
     
     const userGoal = profileData.career_goal ? profileData.career_goal.substring(0, 50) + '...' : 'bilinmeyen hedef';
+    
+    // CV Oluşturucu Regex (Hataların json parse etmesini önle)
+    const europassText = profileData.europass_cv ? profileData.europass_cv : "Henüz bir CV üretilmedi.";
+    const safeEuropassText = europassText.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
+    layoutStr = layoutStr.split('$EUROPASS_CV_TEXT$').join(safeEuropassText);
     
     // JSON.parse() çökmesini önlemek için kullanıcı girdisini güvenli hale getiriyoruz (Tırnak ve Alt Satır koruması)
     const safeUserGoal = userGoal.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
