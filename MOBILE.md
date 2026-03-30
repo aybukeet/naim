@@ -18,10 +18,10 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Iterations | 0 |
-| Total Weight (kg) | 0 |
-| Total Time (min) | 0 |
-| Failed Attempts | 0 |
+| Total Iterations | 10 |
+| Total Weight (kg) | 140 kg |
+| Total Time (min) | ~165 min |
+| Failed Attempts | 10 |
 
 ---
 
@@ -272,22 +272,52 @@ geldik artık sonlara cv üretme kısmına belirli sorular yöneltip aldığı c
 
 ---
 
-## 🧠 Reflection (fill at the end)
+### 💼 Iteration 10 (Final Boss)
+
+| Field | Value |
+|-------|-------|
+| Feature | `Generative SDUI: Remotive API + Yapay Zeka ile Gerçek İş İlanları` |
+| Weight | `25 kg` |
+| Tool Used | `Antigravity` |
+| Time | `20 min` |
+| Attempts | `2` |
+| Status | ✅ Success |
+
+**Prompt given to AI:**
+```
+son aşamadayız artık giriş sayfasına da son güzel arka planlı halini verip iş ilanları getiren kısmı kodlayalım
+```
+
+**What happened:**
+- `SDUIEngine.js` motoru yeni bir `image` bileşeni tipini destekler hale getirildi. Ana Ekrana Unsplash üzerinden dinamik olarak çekilen premium bir kapak fırlandırıldı.
+- `ui.json` dosyasına `jobs` adında dinamik "geridoldurulan" bir ekran eklendi.
+- `aiService.js` içerisindeki `generateJobListings()` fonksiyonu kökten yeniden yazıldı. **İki aşamalı Multi-Agent Boru Hattı (Pipeline):** 
+  1. **Web Agent:** `remotive.com/api` üzerinden kullanıcı becerilerine göre internetüzerinden gerçek remote iş ilanları çekildi (20 ilan).
+  2. **AI Matching Agent:** Gemini, kullanıcının Tüm Profil Verisini (CV + Hedef) okuyarak bu 20 gerçek ilandan en uygun 3'ünü seçti.
+- `App.js` seçilen 3 ilanı dinamik SDUI kartlarına dönüştürüp ekrana çizdi. "Hemen Başvur" butonu `Linking.openURL()` ile gerçek ilan sayfasına yönlendiriyor.
+
+**Screenshot:** 📸 Gerçek iş ilanlarının kart halinde göründüğü ve "Hemen Başvur" butonunun çalıştığı ekran görüntüsü (`assets/iter10.png`).
+
+**Commit:** `[NAIM: CareerMate] Iterasyon 10: Final Boss - Generative SDUI + Gerçek İş İlanları - 25kg`
+
+---
+
+## 🧠 Reflection
 
 **Hardest part:**
-> (Doldurulacak)
+> Google Gemini API'nin 404 / 503 / 429 hata ülümgünlüğü; farklı model isimlerini (gemini-1.5-flash, gemini-pro, gemini-2.0-flash...) tek tek deneyerek nihayet ücretsiz hesaba uyumlu, stabil ve kota patlatmayan `gemini-flash-latest` modeline kilitlenmek çok sabır gerektirdi.
 
 **What AI did well:**
-> (Doldurulacak)
+> Sadece bir tek natural language prompt alarak, sıfırdan Server-Driven UI mimarisi tasarladı; her iterasyonda `ui.json` dosyasına yeni bir ekran veya özellik enjekte etti. CV üretimi, tema motoru, AsyncStorage entegrasyonu ve Multi-Agent Pipeline gibi karmaşık yapıları saniyeler içinde óneriyo yazdı.
 
 **Where AI failed:**
-> (Doldurulacak)
+> API model seçimi ve kota yönetimi konusunda başlangıçta eski model isimlerini önerdi. Ayrıca `git add .` öncesi `.gitignore`'un hazır olmaması nedeniyle `.env` dosyası GitHub'a sızdı; ancak `git push --force` ile anında geri alındı.
 
 **If I started over, I would:**
-> (Doldurulacak)
+> `.env` dosyasını ve `.gitignore`'u projenin en başında oluştururdum. Ayrıca api model seçimini baştan `ListModels` endpoint ile doğrular, iterasyon süreçlerinde kota trafığini daha dikkatli yönetirdim.
 
 **Best feature I built:**
-> (Doldurulacak)
+> **Generative SDUI (Server-Driven UI) Mimarisi:** Yapay zekanın internetüzerinden çektiği gerçek ilanları kullanıcının profiline göre sıralaması ve sonucu dogrudan bir JSON arayüz tanmılamasına dönüştürmün o "Inception" anı.
 
 **Biggest surprise:**
-> (Doldurulacak)
+> 10 iterasyon boyunca tek bir `.tsx` veya `.jsx` bileşeni dosyası yazmadan, tüm kullanıcı arayüzünü sadece `ui.json` üzerinden tasarlayabilmek ne kadar güçlü bir mimari yaklaşım olduğunu görmek inanılmazdı. Ayrıca Gemini'nin CV üretimi için gerçekten Europass kalitesinde metin üretiyor olması da hayran bıraktı.

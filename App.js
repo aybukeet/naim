@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Linking } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SDUIEngine from './components/SDUIEngine';
 import uiData from './ui.json';
-import { generateMentorResponse, generateEuropassCV } from './services/aiService';
+import { generateMentorResponse, generateEuropassCV, generateJobListings } from './services/aiService';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -76,8 +76,36 @@ export default function App() {
          setProfileData(finalProfile);
       }, 500);
 
-    }
-    else if (action.type === 'SET_PERSONA') {
+    } else if (action.type === 'FIND_JOBS_ACTION') {
+      setCurrentScreen('jobs');
+      
+      uiData.screens['jobs'].elements = [
+        { "type": "text", "content": "Yapay zeka (gemini-flash-latest) CV'ni okuyup özel iş ilanları kodluyor...\nLütfen 10s bekle! 🤖", "style": { "fontSize": 18, "color": "$TEXT$", "textAlign": "center", "marginTop": 50 } }
+      ];
+      
+      setTimeout(async () => {
+         const generatedUI = await generateJobListings(profileData, profileData.career_goal);
+         if(generatedUI && Array.isArray(generatedUI)) {
+            // AI TARAFINDAN YAZILMIŞ UI BLOKLARINI KES YAPIŞTIR! ✨
+            uiData.screens['jobs'].elements = [
+               { "type": "text", "content": "✨ Sana Özel Mükemmel Fırsatlar!", "style": { "fontSize": 28, "fontWeight": "900", "color": "$TEXT$", "textAlign": "center", "marginBottom": 20 } },
+               ...generatedUI,
+               { "type": "button", "content": "⬅ Ana Ekrana Dön", "action": { "type": "NAVIGATE", "target": "home" }, "style": { "backgroundColor": "transparent", "padding": 15, "borderRadius": 16, "borderWidth": 2, "borderColor": "$BORDER$", "alignItems": "center", "marginTop": 20 }, "textStyle": { "color": "$TEXT$", "fontWeight": "bold", "fontSize": 16 } }
+            ];
+         } else {
+            uiData.screens['jobs'].elements = [
+               { "type": "text", "content": "❌ AI İlan JSON Kodunu düzgün üretemedi. (API Kota Limiti veya Syntax Hatası).", "style": { "fontSize": 18, "color": "red", "textAlign": "center", "marginTop": 40 } },
+               { "type": "button", "content": "⬅ Geri Dön", "action": { "type": "NAVIGATE", "target": "home" }, "style": { "backgroundColor": "$CHIP_BG$", "padding": 15, "borderRadius": 16, "alignItems": "center", "marginTop": 20 }, "textStyle": { "color": "$TEXT$", "fontWeight": "bold", "fontSize": 16 } }
+            ];
+         }
+         // React Tree'yi güncellenmeye zorla (re-render)
+         setProfileData(prev => ({...prev, _triggerRender: Date.now()}));
+      }, 500);
+
+    } else if (action.type === 'OPEN_URL') {
+      if (action.url) Linking.openURL(action.url).catch(() => console.warn('URL açılamadı:', action.url));
+
+    } else if (action.type === 'SET_PERSONA') {
       setPersona(action.value);
       let greeting = 'Merhaba, ben profesyonel mentörün.';
       if (action.value === 'fun') greeting = 'Hey dostum! Hedefine ($HEDEF$) bayıldım. Birlikte çok eğlenip harika işler çıkaracağız! Ne sormak istiyorsun?';

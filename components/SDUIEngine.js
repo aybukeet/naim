@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, ScrollView, Image } from 'react-native';
 
 export default function SDUIEngine({ layout, onAction, initialState = {} }) {
   const [formData, setFormData] = useState(initialState);
@@ -35,6 +35,16 @@ export default function SDUIEngine({ layout, onAction, initialState = {} }) {
                 setFormData(prev => ({ ...prev, [element.id]: text }));
               }
             }}
+          />
+        );
+
+      case 'image':
+        return (
+          <Image 
+            key={element.id || index}
+            style={element.style}
+            source={{ uri: element.src }}
+            resizeMode={element.resizeMode || "cover"}
           />
         );
 
